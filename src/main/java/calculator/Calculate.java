@@ -11,7 +11,7 @@ public class Calculate {
 		return x-y;
 	}
 	public static void main(String[] args) {
-		in x=10;
+		int x=10;
 		int y=20;
 		System.out.println(add(x,y));
 		System.out.println(subtract(x,y));
