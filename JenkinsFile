@@ -1,0 +1,32 @@
+pipeline{
+  agent any
+  tools{
+       maven 'mymaven'
+       jdk 'JDK11'
+   }
+  stages {
+    stage('Build'){
+       steps {
+                withSonarQubeEnv('sonar-server') {
+                 
+                        sh 'mvn clean package sonar:sonar'
+                    
+                }
+            }
+     }
+    stage('Test'){
+      steps{
+        sh 'mvn test'
+      }
+      }
+     stage('collect artifact'){
+     steps{
+     archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+     }
+     }
+       
+      
+  
+  }
+  }
+
