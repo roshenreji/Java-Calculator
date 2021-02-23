@@ -1,13 +1,13 @@
 pipeline{
   agent any
   tools{
-       maven 'mymaven'
-       jdk 'JDK11'
+       maven 'maven'
+       jdk 'Jdk'
    }
   stages {
     stage('Build'){
        steps {
-                withSonarQubeEnv('mysonar') {
+                withSonarQubeEnv('Sonar') {
                  
                         sh 'mvn clean package sonar:sonar'
                     
@@ -29,7 +29,7 @@ pipeline{
      steps{
      
      rtUpload (
-    serverId: 'artifactory-server',
+    serverId: 'JfrogId',
     spec: '''{
           "files": [
             {
