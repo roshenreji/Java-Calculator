@@ -1,0 +1,50 @@
+pipeline{
+  agent any
+  tools{
+       maven 'mymaven'
+       jdk 'JDK11'
+   }
+  stages {
+    stage('Build'){
+       steps {
+                withSonarQubeEnv('mysonar') {
+                 sh'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+                        sh 'mvn clean package'
+                    
+                }
+            }
+     }
+    stage('Test'){
+      steps{
+        sh 'mvn test'
+      }
+      }
+     stage('collect artifact'){
+     steps{
+     archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+     }
+     }
+      stage('deploy to artifactory')
+     {
+     steps{
+     
+     rtUpload (
+    serverId: 'artifactory-server',
+    spec: '''{
+          "files": [
+            {
+              "pattern": "target/*.jar",
+              "target": "art-doc-dev-loc"
+            }
+         ]
+    }''',
+    buildName: 'holyFrog',
+    buildNumber: '42'
+)
+     }}
+       
+      
+  
+  }
+  }
+
