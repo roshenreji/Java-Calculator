@@ -12,7 +12,7 @@ public class Calculate {
 	}
 	public static void main(String[] args) {
 		int x=10;
-		in y=20;
+		int y=20;
 		System.out.println(add(x,y));
 		System.out.println(subtract(x,y));
 	}
